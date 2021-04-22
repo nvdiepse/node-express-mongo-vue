@@ -1,4 +1,4 @@
-import MeetingModel from '../models/Meeting';
+const MeetingModel = require("../models/Meeting");
 
 const getMeetings = () => {
     return [];

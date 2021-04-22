@@ -1,15 +1,17 @@
-import express from "express";
-import handlebars from "express-handlebars";
+const express = require("express");
+const handlebars = require("express-handlebars");
+const authMiddleware = require("./middlewares/auth");
+require("dotenv").config();
 
 const app = express();
 
 //define router
-import apiRouter from "./routes/api";
-import webRouter from "./routes/web";
-import adminRouter from "./routes/admin";
+const apiRouter = require("./routes/api");
+const webRouter = require("./routes/web");
+const adminRouter = require("./routes/admin");
 
 const port = process.env.PORT || 3000;
-
+const sequelize = require("./config/db");
 app.set("view engine", "hbs");
 app.engine(
     "hbs",
@@ -24,10 +26,9 @@ app.use(express.static("./public"));
 app.use(express.json());
 
 //setup router
-app.use("/", webRouter);
-app.use("/api", apiRouter);
+app.use("/api/v1", authMiddleware, apiRouter);
 app.use("/admin", adminRouter);
-
+app.use("/", webRouter);
 
 app.listen(port, () => {
     console.log(`App running port: ${port}`);

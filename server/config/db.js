@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
-const connection = mongoose.connect("mongodb://localhost/zoom", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-});
+const { Sequelize } = require("sequelize");
 
-module.exports = connection;
+const sequelize = new Sequelize(process.env.DB);
+// sequelize
+//     .authenticate()
+//     .then(() => {
+//         console.log("Connection has been established successfully.");
+//     })
+//     .catch((err) => {
+//         console.error("Unable to connect to the database:", err);
+//     });
+module.exports = sequelize;
